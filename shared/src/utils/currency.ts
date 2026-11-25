@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js';
+import { Decimal } from 'decimal.js';
 import { DEFAULT_SCHOOL_SETTINGS } from '../constants/academic.js';
 
 export type MoneyInput = number | string;

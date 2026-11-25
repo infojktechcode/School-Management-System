@@ -8,6 +8,9 @@ import { config } from './config/index.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
 import { healthRouter } from './routes/health.js';
+import { authRouter } from './modules/auth/auth.routes.js';
+import { dashboardRouter } from './modules/dashboard/dashboard.routes.js';
+import { schoolRouter } from './modules/schools/school.routes.js';
 import { logger } from './utils/logger.js';
 
 export function createApp(): Express {
@@ -49,6 +52,9 @@ export function createApp(): Express {
 
   app.use('/health', healthRouter);
   app.use('/api/v1/health', healthRouter);
+  app.use('/api/v1/auth', authRouter);
+  app.use('/api/v1/dashboard', dashboardRouter);
+  app.use('/api/v1/schools', schoolRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

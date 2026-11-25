@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_ENV: test
+  SUPABASE_URL: https://test-project.supabase.co
+  SUPABASE_ANON_KEY: test-anon-key
+  SUPABASE_SERVICE_ROLE_KEY: test-service-role-key
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sms_test
+  DIRECT_URL: postgresql://postgres:postgres@localhost:5432/sms_test
+  JWT_SECRET: ci-access-secret-that-is-long-enough
+  JWT_REFRESH_SECRET: ci-refresh-secret-that-is-long-enough
+
+jobs:
+  verify:
+    name: Typecheck, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.23.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter server db:generate
+
+      - name: Build shared package
+        run: pnpm --filter shared build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test with coverage
+        run: |
+          pnpm --filter shared test
+          pnpm --filter server test -- --coverage
+          pnpm --filter client test -- --coverage
+
+      - name: Build server
+        run: pnpm --filter server build
+
+      - name: Build client
+        run: pnpm --filter client build
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            server/coverage
+            client/coverage
+          if-no-files-found: ignore
+          retention-days: 7
