@@ -4,7 +4,7 @@
 - [x] Monorepo workspace configuration (`package.json`, `pnpm-workspace.yaml`, `tsconfig.json`)
 - [x] Environment template (`.env.example`, `.env`)
 - [x] Implementation plan (`docs/superpowers/plans/2026-11-24-school-management-system-phase1.md`)
-- [ ] Shared package with types, Zod schemas, and utilities
+- [x] Shared package with types, Zod schemas, and utilities
 - [ ] Server package with Express, Prisma schema, Supabase integration, and middleware
 - [ ] Database schema push and RLS policies
 - [ ] Authentication system (Supabase Auth + JWT + RBAC)

@@ -21,12 +21,15 @@ export interface Mark {
   remarks?: string;
 }
 
-export interface GradingScale {
-  id: string;
-  schoolId: string;
+export interface GradingScaleEntry {
   gradeName: string;
   minMarks: number;
   maxMarks: number;
   points: number;
   remarks: string;
+}
+
+export interface GradingScale extends GradingScaleEntry {
+  id: string;
+  schoolId: string;
 }
