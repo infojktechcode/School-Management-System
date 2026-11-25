@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@school-mgmt/shared/*": ["shared/src/*"],
+      "@school-mgmt/client/*": ["client/src/*"],
+      "@school-mgmt/server/*": ["server/src/*"]
+    }
+  },
+  "references": [
+    { "path": "./shared" },
+    { "path": "./client" },
+    { "path": "./server" }
+  ],
+  "exclude": ["node_modules", "dist"]
+}
